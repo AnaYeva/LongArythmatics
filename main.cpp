@@ -10,12 +10,8 @@ int multOfTwoDigits(char a,char b){
 }
 
 void zeroClean(string &str){
-    std::cout << "hello"<<str<<endl << std::endl;
-    int c=0;
-    while(str[c]=='0' and str.length()>1){
+    while(str[0]=='0' and str.length()>1){
         str.erase(0, 1);
-        std::cout << "current str: "<<str << endl<<std::endl;
-        c++;
     }
 }
 
@@ -44,20 +40,21 @@ string sum (string &first,string &second){
             overten=1;
             c-=10;}
         else {overten=0;}
-        result=(to_string(c))+result;
+        result.insert(0,to_string(c));
     }
     if (overten==1)result="1"+result;
+    zeroClean(result);
     return result;
 }
 
 string multiplyOneDigit(string bignum,char digitnum){
     string result;
-    short int overten=0;
+    int overten=0;
     int c;
     for(int i=bignum.length()-1;i>=0;i--){
         c = multOfTwoDigits(bignum[i],digitnum)+overten;
         overten=c/10;
-        result=(to_string(c%10))+result;
+        result.insert(0,(to_string(c%10)));
     }
     if (overten>0)result=(to_string(overten))+result;
     return result;
@@ -68,7 +65,7 @@ string multiply (string &first,string &second){
     result = multiplyOneDigit(first,second[0]);
     for (int i=1;i<=second.length()-1;i++){
         temp = multiplyOneDigit(first,second[i]);
-        result=result+'0';
+        result+='0';
         result = sum(temp,result);
     }
     zeroClean(result);
@@ -99,7 +96,7 @@ int main() {
     first = userNumber();
     std::cout << "Enter the second NUMBER:" << std::endl;
     second= userNumber();
-    std::cout << "Sum of first and second number is:  " << sum(first,second) << std::endl;
+    std::cout << "Sum of first and second number is:  " << (sum(first,second)) << std::endl;
     std::cout << "Multiplication of first and second number is:  " << multiply(first,second) << std::endl;
     return 0;
 }
